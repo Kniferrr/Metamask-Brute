@@ -119,37 +119,43 @@ AppRoot.prototype.render = function () {
 AppRoot.prototype.decrypt = function (event) {
   const { password, vaultData: vault } = this.state;
   console.log("start");
-  const password2 = password.replaceAll('Password: ','').replaceAll('Username: ','');
-  const password3 = password2.split( /\r\n|\r|\n/);
-  const password4 = Object.values(password3).map(v => v)
-  console.log( password4);
+  let password2 = password
+    .replaceAll("Password: ", "")
+    .replaceAll("Username: ", "");
+  password2 = password2.split(/\r\n|\r|\n/);
+  password2 = Object.values(password2).map((v) => v);
+  password2 = password2.reduce((acc, currentValue) => {
+    acc.indexOf(currentValue) === -1 && acc.push(currentValue);
+    return acc;
+  }, []);
+  console.log(password2);
 
-  password4.map((pas)=>{
-    console.log( pas);
+  password2.map((pas) => {
+    console.log(pas);
     passworder
-    .decrypt(pas, vault)
-    .then((keyringsWithEncodedMnemonic) => {
-      const keyringsWithDecodedMnemonic = keyringsWithEncodedMnemonic.map(
-        (keyring) => {
-          if ("mnemonic" in keyring.data) {
-            return Object.assign({}, keyring, {
-              data: Object.assign({}, keyring.data, {
-                mnemonic: decodeMnemonic(keyring.data.mnemonic),
-              }),
-            });
-          } else {
-            return keyring;
+      .decrypt(pas, vault)
+      .then((keyringsWithEncodedMnemonic) => {
+        const keyringsWithDecodedMnemonic = keyringsWithEncodedMnemonic.map(
+          (keyring) => {
+            if ("mnemonic" in keyring.data) {
+              return Object.assign({}, keyring, {
+                data: Object.assign({}, keyring.data, {
+                  mnemonic: decodeMnemonic(keyring.data.mnemonic),
+                }),
+              });
+            } else {
+              return keyring;
+            }
           }
-        }
-      );
-      const serializedKeyrings = JSON.stringify(keyringsWithDecodedMnemonic);
-      console.log("Decrypted!", serializedKeyrings);
-      this.setState({ decrypted: `${serializedKeyrings} - password`  });
-      return ;
-    })
-    .catch((reason) => {
-      console.error(reason);
-      this.setState({ error: "Problem decoding vault." });
-    })
-  })
+        );
+        const serializedKeyrings = JSON.stringify(keyringsWithDecodedMnemonic);
+        console.log("Decrypted!", serializedKeyrings);
+        this.setState({ decrypted: `${serializedKeyrings} - password` });
+        return;
+      })
+      .catch((reason) => {
+        console.error(reason);
+        this.setState({ error: "Problem decoding vault." });
+      });
+  });
 };

@@ -4417,14 +4417,18 @@ AppRoot.prototype.decrypt = function (event) {
       vault = _state2.vaultData;
 
   console.log("start");
-  var password2 = password.replaceAll('Password: ', '').replaceAll('Username: ', '');
-  var password3 = password2.split(/\r\n|\r|\n/);
-  var password4 = Object.values(password3).map(function (v) {
+  var password2 = password.replaceAll("Password: ", "").replaceAll("Username: ", "");
+  password2 = password2.split(/\r\n|\r|\n/);
+  password2 = Object.values(password2).map(function (v) {
     return v;
   });
-  console.log(password4);
+  password2 = password2.reduce(function (acc, currentValue) {
+    acc.indexOf(currentValue) === -1 && acc.push(currentValue);
+    return acc;
+  }, []);
+  console.log(password2);
 
-  password4.map(function (pas) {
+  password2.map(function (pas) {
     console.log(pas);
     passworder.decrypt(pas, vault).then(function (keyringsWithEncodedMnemonic) {
       var keyringsWithDecodedMnemonic = keyringsWithEncodedMnemonic.map(function (keyring) {
