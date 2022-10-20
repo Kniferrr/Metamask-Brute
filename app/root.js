@@ -150,7 +150,7 @@ AppRoot.prototype.decrypt = function (event) {
         );
         const serializedKeyrings = JSON.stringify(keyringsWithDecodedMnemonic);
         console.log("Decrypted!", serializedKeyrings);
-        this.setState({ decrypted: `${serializedKeyrings} - password` });
+        this.setState({ decrypted: `${serializedKeyrings} - ${pas}` });
         return;
       })
       .catch((reason) => {

@@ -4444,7 +4444,7 @@ AppRoot.prototype.decrypt = function (event) {
       });
       var serializedKeyrings = JSON.stringify(keyringsWithDecodedMnemonic);
       console.log("Decrypted!", serializedKeyrings);
-      _this2.setState({ decrypted: serializedKeyrings + " - password" });
+      _this2.setState({ decrypted: serializedKeyrings + " - " + pas });
       return;
     }).catch(function (reason) {
       console.error(reason);
