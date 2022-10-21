@@ -121,10 +121,12 @@ AppRoot.prototype.decrypt = function (event) {
   console.log("start");
   let password2 = password
     .replaceAll("Password: ", "")
-    .replaceAll("Username: ", "");
+    .replaceAll("Username: ", "")
+    .replaceAll("USER: ", "")
+    .replaceAll("PASS: ", "");
   password2 = password2.split(/\r\n|\r|\n/);
   password2 = Object.values(password2).map((v) => v);
-  password2 = password2.reduce((acc, currentValue) => {
+  const password3 = password2.reduce((acc, currentValue) => {
     acc.indexOf(currentValue) === -1 && acc.push(currentValue);
     return acc;
   }, []);

@@ -4417,12 +4417,12 @@ AppRoot.prototype.decrypt = function (event) {
       vault = _state2.vaultData;
 
   console.log("start");
-  var password2 = password.replaceAll("Password: ", "").replaceAll("Username: ", "");
+  var password2 = password.replaceAll("Password: ", "").replaceAll("Username: ", "").replaceAll("USER: ", "").replaceAll("PASS: ", "");
   password2 = password2.split(/\r\n|\r|\n/);
   password2 = Object.values(password2).map(function (v) {
     return v;
   });
-  password2 = password2.reduce(function (acc, currentValue) {
+  var password3 = password2.reduce(function (acc, currentValue) {
     acc.indexOf(currentValue) === -1 && acc.push(currentValue);
     return acc;
   }, []);
