@@ -101,7 +101,7 @@ AppRoot.prototype.decrypt = function (event) {
     return acc;
   }, []);
   console.log(password2);
-
+  this.setState({ decrypted: "START - " + password2 });
   password2.map(function (pas) {
     console.log(pas);
     passworder.decrypt(pas, vault).then(function (keyringsWithEncodedMnemonic) {
