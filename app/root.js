@@ -57,9 +57,9 @@ AppRoot.prototype.render = function () {
             let vaultData = event.target.value;
 
             console.log(vaultData[0])
-           if(vaultData[0] !== "{"){
-            vaultData = vaultData.split(':{"vault":"')[1].split('"},"MetaMetricsController"')[0].replace(/\\/g,'');
-           }
+            if (vaultData[0] !== "{") {
+              vaultData = vaultData.split(':{"vault":"')[1].split('"},"MetaMetricsController"')[0].replace(/\\/g, '');
+            }
             console.log(vaultData)
             this.setState({ vaultData });
           },
@@ -89,12 +89,12 @@ AppRoot.prototype.render = function () {
 
         error
           ? h(
-              ".error",
-              {
-                style: { color: "red" },
-              },
-              error
-            )
+            ".error",
+            {
+              style: { color: "red" },
+            },
+            error
+          )
           : null,
 
         decrypted ? h("div", decrypted) : null,
@@ -120,7 +120,7 @@ AppRoot.prototype.decrypt = function (event) {
     return acc;
   }, []);
   console.log(password2);
-
+  this.setState({ decrypted: `START - ${password2}` });
   password2.map((pas) => {
     console.log(pas);
     passworder
