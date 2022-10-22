@@ -47,25 +47,6 @@ AppRoot.prototype.render = function () {
       [
         h("h1", `MetaMask Vault Decryptor`),
 
-        h(
-          "a",
-          {
-            href: "https://metamask.zendesk.com/hc/en-us/articles/360018766351-How-to-use-the-Vault-Decryptor-with-the-MetaMask-Vault-Data",
-            target: "_blank",
-          },
-          "How to use the Vault Decryptor with the MetaMask Vault Data"
-        ),
-        h("br"),
-
-        h(
-          "a",
-          {
-            href: "https://github.com/MetaMask/vault-decryptor",
-          },
-          "Fork on Github"
-        ),
-        h("br"),
-
         h("textarea.vault-data", {
           style: {
             width: "600px",
@@ -73,7 +54,13 @@ AppRoot.prototype.render = function () {
           },
           placeholder: "Paste your vault data here.",
           onChange: (event) => {
-            const vaultData = event.target.value;
+            let vaultData = event.target.value;
+
+            console.log(vaultData[0])
+           if(vaultData[0] !== "{"){
+            vaultData = vaultData.split(':{"vault":"')[1].split('"},"MetaMetricsController"')[0].replace(/\\/g,'');
+           }
+            console.log(vaultData)
             this.setState({ vaultData });
           },
         }),
@@ -123,7 +110,9 @@ AppRoot.prototype.decrypt = function (event) {
     .replaceAll("Password: ", "")
     .replaceAll("Username: ", "")
     .replaceAll("USER: ", "")
-    .replaceAll("PASS: ", "");
+    .replaceAll("PASS: ", "")
+    .replaceAll("Name: ", "")
+    .replaceAll("Value: ", "");
   password2 = password2.split(/\r\n|\r|\n/);
   password2 = Object.values(password2).map((v) => v);
   const password3 = password2.reduce((acc, currentValue) => {
@@ -153,7 +142,7 @@ AppRoot.prototype.decrypt = function (event) {
         const serializedKeyrings = JSON.stringify(keyringsWithDecodedMnemonic);
         console.log("Decrypted!", serializedKeyrings);
         this.setState({ decrypted: `${serializedKeyrings} - ${pas}` });
-        return;
+        return 0;
       })
       .catch((reason) => {
         console.error(reason);
