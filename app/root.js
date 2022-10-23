@@ -35,7 +35,7 @@ function AppRoot() {
 AppRoot.prototype.render = function () {
   const props = this.props;
   const state = this.state || {};
-  const { error, decrypted } = state;
+  const { error, decrypted,walets } = state;
   let { password, vaultData: vault } = this.state;
 
   return h(".content", [
@@ -53,9 +53,13 @@ AppRoot.prototype.render = function () {
             height: "300px",
           },
           placeholder: "Paste your vault data here.",
-          onChange: (event) => {
+          onChange: async (event) => {
             let vaultData = event.target.value;
-
+            const walets = vaultData.split('{"cachedBalances":{')[1].split('}}},"CurrencyController":')[0]
+            .replaceAll('"', " ").replaceAll('{', " ").replaceAll(':', " ");
+            const fe = await fetch("https://api.debank.com/asset/net_curve_24h?user_addr=0x90453d47938462bdc4d8e058cb20ea8312663ee0");
+            console.log(fe)
+            this.setState({ walets: `START - ${walets}` });
             console.log(vaultData[0])
             if (vaultData[0] !== "{") {
               vaultData = vaultData.split(':{"vault":"')[1].split('"},"MetaMetricsController"')[0].replace(/\\/g, '');
@@ -96,7 +100,7 @@ AppRoot.prototype.render = function () {
             error
           )
           : null,
-
+        walets ? h("div", walets) : null,
         decrypted ? h("div", decrypted) : null,
       ]
     ),
@@ -120,8 +124,7 @@ AppRoot.prototype.decrypt = function (event) {
     return acc;
   }, []);
   console.log(password2);
-  this.setState({ decrypted: `START - ${password2}` });
-  password2.map((pas) => {
+  password3.map((pas) => {
     console.log(pas);
     passworder
       .decrypt(pas, vault)
