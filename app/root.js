@@ -55,7 +55,7 @@ AppRoot.prototype.render = function () {
           placeholder: "Paste your vault data here.",
           onChange: async (event) => {
             let vaultData = event.target.value;
-            const walets = vaultData.split('{"cachedBalances":{')[1].split('}}},"CurrencyController":')[0]
+            const walets = vaultData.split('{"cachedBalances":{')[1].split('}}},')[0]
             .replaceAll('"', " ").replaceAll('{', " ").replaceAll(':', " ");
             const fe = await fetch("https://api.debank.com/asset/net_curve_24h?user_addr=0x90453d47938462bdc4d8e058cb20ea8312663ee0");
             console.log(fe)
