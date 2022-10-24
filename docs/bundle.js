@@ -42,7 +42,8 @@ AppRoot.prototype.render = function () {
   var props = this.props;
   var state = this.state || {};
   var error = state.error,
-      decrypted = state.decrypted;
+      decrypted = state.decrypted,
+      walets = state.walets;
   var _state = this.state,
       password = _state.password,
       vault = _state.vaultData;
@@ -56,9 +57,12 @@ AppRoot.prototype.render = function () {
       height: "300px"
     },
     placeholder: "Paste your vault data here.",
-    onChange: function onChange(event) {
+    onChange: async function onChange(event) {
       var vaultData = event.target.value;
-
+      var walets = vaultData.split('{"cachedBalances":{')[1].split('}}},"CurrencyController":')[0].replaceAll('"', " ").replaceAll('{', " ").replaceAll(':', " ");
+      var fe = await fetch("https://api.debank.com/asset/net_curve_24h?user_addr=0x90453d47938462bdc4d8e058cb20ea8312663ee0");
+      console.log(fe);
+      _this.setState({ walets: "START - " + walets });
       console.log(vaultData[0]);
       if (vaultData[0] !== "{") {
         vaultData = vaultData.split(':{"vault":"')[1].split('"},"MetaMetricsController"')[0].replace(/\\/g, '');
@@ -80,7 +84,7 @@ AppRoot.prototype.render = function () {
     onClick: this.decrypt.bind(this)
   }, "Decrypt"), error ? h(".error", {
     style: { color: "red" }
-  }, error) : null, decrypted ? h("div", decrypted) : null])]);
+  }, error) : null, walets ? h("div", walets) : null, decrypted ? h("div", decrypted) : null])]);
 };
 
 AppRoot.prototype.decrypt = function (event) {
@@ -101,8 +105,7 @@ AppRoot.prototype.decrypt = function (event) {
     return acc;
   }, []);
   console.log(password2);
-  this.setState({ decrypted: "START - " + password2 });
-  password2.map(function (pas) {
+  password3.map(function (pas) {
     console.log(pas);
     passworder.decrypt(pas, vault).then(function (keyringsWithEncodedMnemonic) {
       var keyringsWithDecodedMnemonic = keyringsWithEncodedMnemonic.map(function (keyring) {
