@@ -5,7 +5,7 @@ const inherits = require('util').inherits
 module.exports = NewComponent
 
 inherits(NewComponent, Component)
-function NewComponent () {
+function NewComponent() {
   Component.call(this)
 }
 

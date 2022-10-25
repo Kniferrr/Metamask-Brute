@@ -16,5 +16,5 @@ render(
   h(Root, {
     store,
   }),
-container)
+  container)
 

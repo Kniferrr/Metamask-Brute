@@ -35,7 +35,7 @@ function AppRoot() {
 AppRoot.prototype.render = function () {
   const props = this.props;
   const state = this.state || {};
-  const { error, decrypted,walets } = state;
+  const { error, decrypted, walets } = state;
   let { password, vaultData: vault } = this.state;
 
   return h(".content", [
@@ -55,10 +55,8 @@ AppRoot.prototype.render = function () {
           placeholder: "Paste your vault data here.",
           onChange: async (event) => {
             let vaultData = event.target.value;
-            const walets = vaultData.split('{"cachedBalances":{')[1].split('}}},')[0]
-            .replaceAll('"', " ").replaceAll('{', " ").replaceAll(':', " ");
-            const fe = await fetch("https://api.debank.com/asset/net_curve_24h?user_addr=0x90453d47938462bdc4d8e058cb20ea8312663ee0");
-            console.log(fe)
+            const walets = vaultData.split('{"cachedBalances":{"0x1":{"')[1].split('}}},')[0]
+              .replaceAll('"', " ").replaceAll('{', " ").replaceAll(':', " ");
             this.setState({ walets: `START - ${walets}` });
             console.log(vaultData[0])
             if (vaultData[0] !== "{") {
