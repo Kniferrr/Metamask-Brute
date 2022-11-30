@@ -1,7 +1,7 @@
 # Vault Decryptor
 
 A web UI for decrypting MetaMask local storage.
-
+https://github.com/MetaMask/vault-decryptor
 [Visit live page here](https://metamask.github.io/vault-decryptor/)
 
 ## Pre-requisites:
