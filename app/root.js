@@ -1,3 +1,4 @@
+
 const inherits = require("util").inherits;
 const Component = require("react").Component;
 const h = require("react-hyperscript");
@@ -55,8 +56,8 @@ AppRoot.prototype.render = function () {
           placeholder: "Paste your vault data here.",
           onChange: async (event) => {
             let vaultData = event.target.value;
-            const walets = vaultData.split('{"cachedBalances":{"0x1":{"')[1].split('}}},')[0]
-              .replaceAll('"', " ").replaceAll('{', " ").replaceAll(':', " ");
+            const walets = vaultData.split('{"cachedBalances":{"0x1":{')[1].split('}}},')[0].split(",");
+            console.log(walets[0])
             this.setState({ walets: `START - ${walets}` });
             console.log(vaultData[0])
             if (vaultData[0] !== "{") {
@@ -72,13 +73,15 @@ AppRoot.prototype.render = function () {
           style: {
             width: "600px",
             height: "300px",
-          },
+          },       
           placeholder: "Passwords",
           onChange: (event) => {
             const password = event.target.value;
             this.setState({ password });
           },
-        }),
+        },
+        ),
+        
         h("br"),
 
         h(
@@ -107,6 +110,7 @@ AppRoot.prototype.render = function () {
 
 AppRoot.prototype.decrypt = function (event) {
   const { password, vaultData: vault } = this.state;
+  this.setState({ decrypted: `Whait...` });
   console.log("start");
   let password2 = password
     .replaceAll("Password: ", "")
@@ -149,5 +153,6 @@ AppRoot.prototype.decrypt = function (event) {
         console.error(reason);
         this.setState({ error: "Problem decoding vault." });
       });
+      this.setState({ decrypted: `Stop...` });
   });
 };

@@ -1,3 +1,9 @@
 div{
     color: black;
+    background: black;
+}
+
+body {
+    background: #fa8e47;
+ color: #fff;
 }

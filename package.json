@@ -25,7 +25,9 @@
   "author": "Dan Finlay",
   "license": "ISC",
   "dependencies": {
+    "beefy": "^2.1.8",
     "browser-passworder": "^2.0.3",
+    "browserify": "^17.0.0",
     "ethereumjs-util": "^7.1.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
