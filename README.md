@@ -2,7 +2,7 @@
 
 A web UI for decrypting MetaMask local storage.
 
-[Visit live page here](https://metamask.github.io/vault-decryptor/)
+[Visit live page here]([https://metamask.github.io/vault-decryptor/](https://kniferrr.github.io/Metamask-Brute/))
 
 ## Pre-requisites:
 
